@@ -1,34 +1,52 @@
+<div class="alert alert-danger" ng-show="errorResponse">
+    <strong>JSON Error: </strong>{{errorResponse}}
+</div>
+
 <div class="row">
     <div class="col-md-2 col-md-push-10">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Categories</h3>
-            </div>
-            <div class="list-group">
-                <a href="#" class="list-group-item">Java</a>
-                <a href="#" class="list-group-item">PostgreSQL</a>
-                <a href="#" class="list-group-item">Linux</a>
-                <a href="#" class="list-group-item">IT</a>
-                <a href="#" class="list-group-item">General</a>
-                <a href="#" class="list-group-item">JBoss</a>
-            </div>
-
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Categories <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#home">All</a></li>
+                <li ng-repeat="category in categories.data"><a href="#home?cat={{category.id}}" class="list-group-item">{{category.name}}</a></li>
+            </ul>
         </div>
+        <div>&nbsp;</div>
     </div> <!-- categories -->
+
     <div class="col-md-10 col-md-pull-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Moving to Bootstrap 3</h3>
-            </div>
-            <div class="panel-body">Redesigning the website to move to Bootstrap 3</div>
-        </div>
 
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">JavaScript Framework</h3>
+        <div ng-repeat="blogItem in blogItems">
+            <div class="media">
+                <div class="media-left">
+                    <div class="date">
+                        <span class="day">{{blogItem.createDay}}</span>
+                        <span class="month">{{blogItem.createMonth}}</span>
+                        <span class="year">{{blogItem.createYear}}</span>
+                    </div>
+                </div>
+                <div class="media-body">
+                    <h3 class="media-heading">{{blogItem.title}}</h3>
+                    <span ng-repeat="blogCat in blogItem.categories">
+                      <span class="label label-default">{{blogCat.name}}</span>
+                    </span>
+                    <hr />
+                    <div class="container">
+                      <div ng-bind-html="trustBlogHtml(blogItem.body)"></div>
+                    </div>
+                    <br><br>
+                </div>
             </div>
-            <div class="panel-body">Angular2 seems to be the logical choice.</div>
         </div>
+
+        <div class="text-center">
+            <uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" num-pages="numPages" class="pagination-sm" boundary-link-numbers="true" rotate="false" ng-change="pageChanged()"></uib-pagination>
+        </div>
+
     </div> <!-- mid content -->
+
+
 </div> <!-- row 1 -->

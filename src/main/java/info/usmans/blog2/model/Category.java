@@ -1,4 +1,4 @@
-package info.usmans.blog2.rest;
+package info.usmans.blog2.model;
 
 /**
  * @author usman.
@@ -6,6 +6,14 @@ package info.usmans.blog2.rest;
 public class Category {
     private int id;
     private String name;
+
+    public Category() {
+    }
+
+    public Category(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public int getId() {
         return id;
@@ -21,5 +29,10 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "[{id:" + id + " name:" + name + "}]";
     }
 }
