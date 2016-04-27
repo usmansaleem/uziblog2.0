@@ -1,25 +1,18 @@
+<div class="jumbotron" ng-show="bigCurrentPage == 1">
+    <div class="container">
+        <h1>Usman Saleem</h1>
+        <p>Things I learn, observe and tryout...</p>
+    </div>
+</div>
+<div class="page-header">
+	<h1>Ramblings...</h1>
+</div>
 <div class="alert alert-danger" ng-show="errorResponse">
     <strong>JSON Error: </strong>{{errorResponse}}
 </div>
-
-<div class="row">
-    <div class="col-md-2 col-md-push-10">
-        <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Categories <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="#home">All</a></li>
-                <li ng-repeat="category in categories.data"><a href="#home?cat={{category.id}}" class="list-group-item">{{category.name}}</a></li>
-            </ul>
-        </div>
-        <div>&nbsp;</div>
-    </div> <!-- categories -->
-
-    <div class="col-md-10 col-md-pull-2">
-
-
-        <div ng-repeat="blogItem in blogItems">
+<div>
+<!-- Blog -->
+        <section ng-repeat="blogItem in blogItems">
             <div class="media">
                 <div class="media-left">
                     <div class="date">
@@ -34,19 +27,16 @@
                       <span class="label label-default">{{blogCat.name}}</span>
                     </span>
                     <hr />
-                    <div class="container">
+                    <article id="blogID_{{blogItem.id}}">
                       <div ng-bind-html="trustBlogHtml(blogItem.body)"></div>
-                    </div>
+                    </article>
                     <br><br>
                 </div>
             </div>
-        </div>
+        </section>
 
         <div class="text-center">
-            <uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" num-pages="numPages" class="pagination-sm" boundary-link-numbers="true" rotate="false" ng-change="pageChanged()"></uib-pagination>
+            <uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" num-pages="numPages" class="pagination-sm" boundary-link-numbers="true" rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" ng-change="pageChanged()"></uib-pagination>
         </div>
+</div>
 
-    </div> <!-- mid content -->
-
-
-</div> <!-- row 1 -->

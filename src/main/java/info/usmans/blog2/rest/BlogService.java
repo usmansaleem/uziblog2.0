@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.sql.*;
@@ -63,7 +64,6 @@ public class BlogService {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Category category = new Category(rs.getInt(1), rs.getString(2));
-                    System.out.println(category);
                     this.categoriesMap.put(String.valueOf(category.getId()), category);
                 }
                 refreshCategories = false;
@@ -76,7 +76,7 @@ public class BlogService {
     @GET
     @Path("/blogCount/{blogSection}")
     @Produces(MediaType.APPLICATION_JSON)
-    public int blogCount(@PathParam("blogSection") String blogSection) {
+    public int blogCount(@PathParam("blogSection") String blogSection, @QueryParam("categoryId") List<Integer> categoryIds) {
         int blogCount = 0;
         try (Connection con = _ds.getConnection(); PreparedStatement ps = con
                 .prepareStatement(BLOG_ITEM_BY_SECTION_COUNT_QUERY)) {
@@ -95,7 +95,7 @@ public class BlogService {
     @GET
     @Path("/blogItems/{blogSection}/{pageNumber}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BlogItem> blogItem(@PathParam("pageNumber") int pageNumber, @PathParam("blogSection") String blogSection) {
+    public List<BlogItem> blogItem(@PathParam("pageNumber") int pageNumber, @PathParam("blogSection") String blogSection, @QueryParam("categoryId") List<Integer> categoryIds ) {
         List<BlogItem> blogItemList = new LinkedList<>();
         if (pageNumber <= 0) {
             pageNumber = 1;

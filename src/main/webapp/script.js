@@ -1,14 +1,14 @@
 // script.js
 
 // create the module and name it blogApp
-var blogApp = angular.module('blogApp', ['ngRoute','ui.bootstrap']);
+var blogApp = angular.module('blogApp', ['ngRoute','ngAnimate','ui.bootstrap']);
 
 //ng-routes
 blogApp.config(function($routeProvider) {
         $routeProvider
 
             // route for the home page
-            .when('/home', {
+            .when('/', {
                 templateUrl : 'pages/home.html',
                 controller  : 'mainCtrl'
             })
@@ -26,8 +26,9 @@ blogApp.config(function($routeProvider) {
             })
 
             .otherwise({
-                           redirectTo: '/home'
+                           redirectTo: '/'
                         });
+
     });
 
 // create the controller and inject Angular's $scope
@@ -45,7 +46,7 @@ blogApp.controller('mainCtrl', function($scope, $http, $log, $sce) {
     //categories
     $http({
       method: 'GET',
-      url: '/rest/blog/listCategories'
+      url: 'rest/blog/listCategories'
     }).then(function successCallback(response) {
         // this callback will be called asynchronously
         // when the response is available
@@ -59,7 +60,7 @@ blogApp.controller('mainCtrl', function($scope, $http, $log, $sce) {
 
     //when page changes, fetch new data
     $scope.pageChanged = function() {
-        $http.get('/rest/blog/blogItems/' + $scope.blogSection + '/' + $scope.bigCurrentPage).then(function(response) {
+        $http.get('rest/blog/blogItems/' + $scope.blogSection + '/' + $scope.bigCurrentPage).then(function(response) {
                    $scope.blogItems = response.data;
                    window.scrollTo(0,0);
             });
@@ -68,7 +69,7 @@ blogApp.controller('mainCtrl', function($scope, $http, $log, $sce) {
     //function to get updated blog count, specially when section changes
     $scope.getBlogCount = function() {
     //blog count
-       $http.get('/rest/blog/blogCount/'+$scope.blogSection).then(function(response) {
+       $http.get('rest/blog/blogCount/'+$scope.blogSection).then(function(response) {
                       $scope.bigTotalItems = response.data;
            });
     };
